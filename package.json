@@ -1,0 +1,34 @@
+{
+	"name": "TextToPhone",
+	"version": "0.0.1",
+	"private": true,
+	"scripts": {
+		"start": "node node_modules/react-native/local-cli/cli.js start",
+		"test": "jest"
+	},
+	"dependencies": {
+		"react": "16.0.0-alpha.6",
+		"react-native": "0.43.3",
+		"axios": "^0.15.2",
+		"react-native-button": "^1.7.1",
+		"react-native-keep-awake": "^1.0.7",
+		"react-native-orientation": "yamill/react-native-orientation",
+		"react-native-scrollable-tab-view": "^0.7.0",
+		"react-native-side-menu": "^0.20.1",
+		"react-native-slider": "^0.9.1",
+		"react-native-swipe-list-view": "^0.3.2",
+		"react-native-swiper": "^1.5.4",
+		"react-native-textinput-effects": "^0.3.0",
+		"react-native-vector-icons": "^3.0.0",
+		"react-native-video": "^0.9.0"
+	},
+	"devDependencies": {
+		"babel-jest": "19.0.0",
+		"babel-preset-react-native": "1.9.1",
+		"jest": "19.0.2",
+		"react-test-renderer": "16.0.0-alpha.6"
+	},
+	"jest": {
+		"preset": "react-native"
+	}
+}
