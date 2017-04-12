@@ -16,6 +16,8 @@ import {
 
 var Global = require('../../common/global');
 
+import SplashScreen from 'react-native-splash-screen'
+
 class AutoExpandingTextInput extends Component {
     constructor(props) {
         super(props);
@@ -48,6 +50,10 @@ class Home extends Component
         this.state = {
             text: 'Useless Multiline Placeholder',
         };
+    }
+
+    componentDidMount() {
+        SplashScreen.hide();
     }
     render(){
 
