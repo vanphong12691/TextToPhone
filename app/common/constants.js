@@ -8,10 +8,10 @@ exports.HEIGHT_HEADER = 50;
 exports.HEIGHT_FOOTER = 120;
 exports.IMAGE_MESSAGE_HEIGHT = 150;
 exports.IMAGE_MESSAGE_WIDTH = 150;
-exports.HEAD_COLOR = '#FF4081';
+exports.HEAD_COLOR = '#F50057';
 exports.HEAD_BLU_COLOR = '#FF80AB';
 exports.BACKGROUND_COLOR = '#F8BBD0';
-exports.BUTTON_COLOR = "#F50057";
+exports.BUTTON_COLOR = "#FF4081";
 
 //define key store
 exports.SETTING_STORE_KEY = 'SETTING_STORE_KEY';

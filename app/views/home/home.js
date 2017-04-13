@@ -15,12 +15,13 @@ import {
 }from 'react-native';
 
 var Global = require('../../common/global');
-
+import Slider from 'react-native-slider';
+import Video from 'react-native-video';
 import SplashScreen from 'react-native-splash-screen'
 import ScrollableTabView, {ScrollableTabBar } from 'react-native-scrollable-tab-view';
 import CustomTabBar from './CustomTabBar';
 import Header from '../../component/header/index';
-import Icon from 'react-native-vector-icons/Ionicons';
+import Audio from '../../component/audio/audio';
 var RNFS = require('react-native-fs');
 const FilePickerManager = require('NativeModules').FilePickerManager;
 class Home extends Component
@@ -30,6 +31,10 @@ class Home extends Component
         this.state = {
             text: 'Đây là chương trình đọc Tiếng Việt.',
             content: 'Chọn "MỞ TỆP TIN" để thực hiện đọc tập tin.',
+            audioPath: '',
+            playing: false,
+            loading: false,
+            readText: true,
         };
     }
 
@@ -39,7 +44,6 @@ class Home extends Component
 
     _changeTab(item){
         if(item.i==1){
-
         }
     }
 
@@ -70,14 +74,54 @@ class Home extends Component
     }
 
     _onPressSpeak(){
+        let content = encodeURIComponent(this.state.content);
+        let audioPath = "http://192.168.1.110:59125/process?INPUT_TEXT="+content+"&INPUT_TYPE=TEXT&OUTPUT_TYPE=AUDIO&LOCALE=vi&AUDIO=WAVE_FILE"
+        this.setState({
+            audioPath: audioPath,
+            currentTime: 0,
+        })
+    }
+    _onPressSpeakText(){
+        let content = encodeURIComponent(this.state.text);
+        let audioPath = "http://192.168.1.110:59125/process?INPUT_TEXT="+content+"&INPUT_TYPE=TEXT&OUTPUT_TYPE=AUDIO&LOCALE=vi&AUDIO=WAVE_FILE"
+        this.setState({
+            audioPath: audioPath,
+            currentTime: 0,
+        })
 
     }
+
+    onClickOpen(){
+        FilePickerManager.showFilePicker(null, (response) => {
+            console.log('Response = ', response);
+
+            if (response.didCancel) {
+                this.setState({
+                    content: 'Chọn "MỞ TỆP TIN" để thực hiện đọc tập tin.'
+                });
+            }
+            else if (response.error) {
+                this.setState({
+                    content: "Có lỗi trong quá trình đọc tập tin."
+                });
+            }
+            else {
+
+                RNFS.readFile(response.path) // On Android, use "RNFS.DocumentDirectoryPath" (MainBundlePath is not defined)
+                    .then((result) => {
+                        this.setState({
+                            content: result
+                        });
+                    })
+            }
+        });
+    }
+
     render(){
 
         return (
             <ScrollableTabView
                 removeClippedSubviews={false}
-                initialPage = {1}
                 style={{ backgroundColor: 'white' }}
                 tabBarPosition={'bottom'}
                 locked = {true}
@@ -85,7 +129,7 @@ class Home extends Component
                 renderTabBar={() => <CustomTabBar />}>
                 <View tabLabel="ios-mic" style={styles.tabView}>
                    <Header title="ĐỌC ĐOẠN VĂN"/>
-                   <View style={styles.marginHeader}>
+                   <View style={[styles.marginHeader, {flex: 1}]}>
                        <TextInput
                            style={styles.textInput}
                            onChangeText={(text) => this.setState({text})}
@@ -96,6 +140,9 @@ class Home extends Component
                            underlineColorAndroid={'transparent'}
                        />
                    </View>
+                    <View style={{height: 110}}>
+                        <Audio isReadFile = {false} content={this.state.text} onClickOpen={this.onClickOpen.bind(this)}/>
+                    </View>
                 </View>
 
 
@@ -106,26 +153,8 @@ class Home extends Component
                                <Text>{this.state.content}</Text>
                            </ScrollView>
                     </View>
-                    <View style={{height: 80, backgroundColor:'blue'}}>
-
-                    </View>
-                    <View style={{
-                        height:Global.Constants.HEIGHT_HEADER,
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        flexDirection: 'row',
-                        }}>
-                        <TouchableHighlight onPress={this._onPressOpen.bind(this)} style={styles.button}>
-                           <View>
-                               <Text>MỞ TẬP TIN</Text>
-                           </View>
-                        </TouchableHighlight>
-                        <TouchableHighlight onPress={this._onPressSpeak} style={styles.button}>
-                            <View>
-                                <Text>ĐỌC</Text>
-                            </View>
-                        </TouchableHighlight>
-
+                    <View style={{height: 110}}>
+                        <Audio isReadFile = {true} content={this.state.content} onClickOpen={this.onClickOpen.bind(this)}/>
                     </View>
                  </View>
 
@@ -145,13 +174,6 @@ var styles = StyleSheet.create({
         flexDirection:'column',
         flex: 1,
         backgroundColor: Global.Constants.BACKGROUND_COLOR,
-    },
-    button:{
-        height: 50,
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: Global.Constants.BUTTON_COLOR,
     },
     textInput:{
         height: Global.Constants.HEIGHT_SCREEN-Global.Constants.HEIGHT_HEADER*2-25,

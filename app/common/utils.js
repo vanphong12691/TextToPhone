@@ -175,7 +175,7 @@ class Utils
 
     secondsToHms(d) {
       if(isNaN(d)){
-        return d;
+        return "0:00";
       }if(d==0){
             return "0:00";
         } else {

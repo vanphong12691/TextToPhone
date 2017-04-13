@@ -1,2 +1,4 @@
-exports.DOMAIN='https://getlinkfilm.000webhostapp.com';
+exports.DOMAIN='"http://192.168.1.110:59125/process?INPUT_TEXT=content&INPUT_TYPE=TEXT&OUTPUT_TYPE=AUDIO&LOCALE=vi&AUDIO=WAVE_FILE"';
 //exports.DOMAIN='http://192.168.1.32/film';
+
+
