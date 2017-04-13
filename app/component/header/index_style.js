@@ -11,8 +11,8 @@ module.exports = StyleSheet.create({
      left: 0,
      right: 0,
      flex: 1,
-     backgroundColor: '#0288D1',
-     height:40,
+     backgroundColor: Global.Constants.HEAD_COLOR,
+     height:Global.Constants.HEIGHT_HEADER,
      alignItems:'center',
      justifyContent: 'center'
    },

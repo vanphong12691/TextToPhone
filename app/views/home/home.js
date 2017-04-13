@@ -17,88 +17,123 @@ import {
 var Global = require('../../common/global');
 
 import SplashScreen from 'react-native-splash-screen'
+import ScrollableTabView, {ScrollableTabBar } from 'react-native-scrollable-tab-view';
+import CustomTabBar from './CustomTabBar';
+import Header from '../../component/header/index';
+import Icon from 'react-native-vector-icons/Ionicons';
 
-class AutoExpandingTextInput extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            text: 'React Native enables you to build world-class application experiences on native platforms using a consistent developer experience based on JavaScript and React. The focus of React Native is on developer efficiency across all the platforms you care about — learn once, write anywhere. Facebook uses React Native in multiple production apps and will continue investing in React Native.',
-            height: 0,
-        };
-    }
-    render() {
-        return (
-            <TextInput
-                {...this.props}
-                multiline={true}
-                onContentSizeChange={(event) => {
-                    this.setState({height: event.nativeEvent.contentSize.height});
-                }}
-                onChangeText={(text) => {
-                    this.setState({text});
-                }}
-                style={[styles.default, {height: Math.max(35, this.state.height)}]}
-                value={this.state.text}
-            />
-        );
-    }
-}
 class Home extends Component
 {
     constructor(props) {
         super(props);
         this.state = {
-            text: 'Useless Multiline Placeholder',
+            text: 'Đây là chương trình đọc Tiếng Việt.',
+            content: 'Nội dung tệp tin asdfadfasdfa asdf asdfasdfasdf asdfasdfasdfasdf Nội dung tệp tin asdfadfasdfa asdf asdfasdfasdf asdfasdfasdfasdfNội dung tệp tin asdfadfasdfa asdf asdfasdfasdf asdfasdfasdfasdfNội dung tệp tin asdfadfasdfa asdf asdfasdfasdf asdfasdfasdfasdfNội dung tệp tin asdfadfasdfa asdf asdfasdfasdf asdfasdfasdfasdfNội dung tệp tin asdfadfasdfa asdf asdfasdfasdf asdfasdfasdfasdfNội dung tệp tin asdfadfasdfa asdf asdfasdfasdf asdfasdfasdfasdfNội dung tệp tin asdfadfasdfa asdf asdfasdfasdf asdfasdfasdfasdfNội dung tệp tin asdfadfasdfa asdf asdfasdfasdf asdfasdfasdfasdfNội dung tệp tin asdfadfasdfa asdf asdfasdfasdf asdfasdfasdfasdfNội dung tệp tin asdfadfasdfa asdf asdfasdfasdf asdfasdfasdfasdfNội dung tệp tin asdfadfasdfa asdf asdfasdfasdf asdfasdfasdfasdfNội dung tệp tin asdfadfasdfa asdf asdfasdfasdf asdfasdfasdfasdfNội dung tệp tin asdfadfasdfa asdf asdfasdfasdf asdfasdfasdfasdfNội dung tệp tin asdfadfasdfa asdf asdfasdfasdf asdfasdfasdfasdfNội dung tệp tin asdfadfasdfa asdf asdfasdfasdf asdfasdfasdfasdfNội dung tệp tin asdfadfasdfa asdf asdfasdfasdf asdfasdfasdfasdfNội dung tệp tin asdfadfasdfa asdf asdfasdfasdf asdfasdfasdfasdfNội dung tệp tin asdfadfasdfa asdf asdfasdfasdf asdfasdfasdfasdfNội dung tệp tin asdfadfasdfa asdf asdfasdfasdf asdfasdfasdfasdfNội dung tệp tin asdfadfasdfa asdf asdfasdfasdf asdfasdfasdfasdfNội dung tệp tin asdfadfasdfa asdf asdfasdfasdf asdfasdfasdfasdfNội dung tệp tin asdfadfasdfa asdf asdfasdfasdf asdfasdfasdfasdfNội dung tệp tin asdfadfasdfa asdf asdfasdfasdf asdfasdfasdfasdfNội dung tệp tin asdfadfasdfa asdf asdfasdfasdf asdfasdfasdfasdf',
         };
     }
 
     componentDidMount() {
         SplashScreen.hide();
     }
+
+    _changeTab(item){
+        if(item.i==1){
+
+        }
+    }
+
+    _onPressOpen(){
+
+    }
+
+    _onPressSpeak(){
+
+    }
     render(){
 
         return (
-               <View>
-                   <View>
-                       <Text>TEXT TO PHONE</Text>
-                   </View>
-                   <View>
-                       <AutoExpandingTextInput
-                           placeholder="height increases with content"
-                           enablesReturnKeyAutomatically={true}
-                           returnKeyType="default"
+            <ScrollableTabView
+                removeClippedSubviews={false}
+                initialPage = {1}
+                style={{ backgroundColor: 'white' }}
+                tabBarPosition={'bottom'}
+                locked = {true}
+                onChangeTab={(item) => this._changeTab(item)}
+                renderTabBar={() => <CustomTabBar />}>
+                <View tabLabel="ios-mic" style={styles.tabView}>
+                   <Header title="ĐỌC ĐOẠN VĂN"/>
+                   <View style={styles.marginHeader}>
+                       <TextInput
+                           style={styles.textInput}
+                           onChangeText={(text) => this.setState({text})}
+                           value={this.state.text}
+                           editable = {true}
+                           multiline = {true}
+                           numberOfLines = {4}
+                           underlineColorAndroid={'transparent'}
                        />
                    </View>
-               </View>
+                </View>
+
+
+                <View tabLabel="ios-folder" style={styles.tabView}>
+                    <Header title="ĐỌC TẬP TIN"/>
+                    <View style={[{flex: 1}, styles.marginHeader]}>
+                           <ScrollView>
+                               <Text>{this.state.content}</Text>
+                           </ScrollView>
+                    </View>
+                    <View style={{height: 80, backgroundColor:'blue'}}>
+
+                    </View>
+                    <View style={{
+                        height:Global.Constants.HEIGHT_HEADER,
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        flexDirection: 'row',
+                        }}>
+                        <TouchableHighlight onPress={this._onPressOpen} style={styles.button}>
+                           <View>
+                               <Text>OPEN</Text>
+                           </View>
+                        </TouchableHighlight>
+                        <TouchableHighlight onPress={this._onPressSpeak} style={styles.button}>
+                            <View>
+                                <Text>SPEAK</Text>
+                            </View>
+                        </TouchableHighlight>
+
+                    </View>
+                 </View>
+
+                <View tabLabel="ios-settings" style={styles.tabView}>
+
+                </View>
+            </ScrollableTabView>
         )
     }
 }
 
 var styles = StyleSheet.create({
-    centering:{
-        alignItems: 'center',
-        justifyContent: 'center',
-        top: 40,
-        right: 0,
-        bottom: 0,
-        left: 0,
-        position: 'absolute',
-        height: Global.Constants.HEIGHT_SCREEN-40,
-        backgroundColor: '#CFD8DC'
+    marginHeader:{
+        marginTop: Global.Constants.HEIGHT_HEADER,
     },
-    container: {
+    tabView:{
+        flexDirection:'column',
         flex: 1,
-        backgroundColor: '#F5FCFF',
-        paddingTop: 50
+        backgroundColor: Global.Constants.BACKGROUND_COLOR,
     },
-    list: {
+    button:{
+        height: 50,
+        flex: 1,
         justifyContent: 'center',
-        flexDirection: 'row',
-        flexWrap: 'wrap'
+        alignItems: 'center',
+        backgroundColor: Global.Constants.BUTTON_COLOR,
     },
-    card:{
-        backgroundColor: '#263238'
+    textInput:{
+        height: Global.Constants.HEIGHT_SCREEN-Global.Constants.HEIGHT_HEADER*2-25,
+        textAlignVertical: 'top',
+        padding: 10
     }
-
 });
 module.exports = Home;
