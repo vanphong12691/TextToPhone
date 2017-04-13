@@ -21,6 +21,7 @@ import ScrollableTabView, {ScrollableTabBar } from 'react-native-scrollable-tab-
 import CustomTabBar from './CustomTabBar';
 import Header from '../../component/header/index';
 import Icon from 'react-native-vector-icons/Ionicons';
+var RNFS = require('react-native-fs');
 const FilePickerManager = require('NativeModules').FilePickerManager;
 class Home extends Component
 {
@@ -28,7 +29,7 @@ class Home extends Component
         super(props);
         this.state = {
             text: 'Đây là chương trình đọc Tiếng Việt.',
-            content: 'Nội dung tệp tin asdfadfasdfa asdf asdfasdfasdf asdfasdfasdfasdf Nội dung tệp tin asdfadfasdfa asdf asdfasdfasdf asdfasdfasdfasdfNội dung tệp tin asdfadfasdfa asdf asdfasdfasdf asdfasdfasdfasdfNội dung tệp tin asdfadfasdfa asdf asdfasdfasdf asdfasdfasdfasdfNội dung tệp tin asdfadfasdfa asdf asdfasdfasdf asdfasdfasdfasdfNội dung tệp tin asdfadfasdfa asdf asdfasdfasdf asdfasdfasdfasdfNội dung tệp tin asdfadfasdfa asdf asdfasdfasdf asdfasdfasdfasdfNội dung tệp tin asdfadfasdfa asdf asdfasdfasdf asdfasdfasdfasdfNội dung tệp tin asdfadfasdfa asdf asdfasdfasdf asdfasdfasdfasdfNội dung tệp tin asdfadfasdfa asdf asdfasdfasdf asdfasdfasdfasdfNội dung tệp tin asdfadfasdfa asdf asdfasdfasdf asdfasdfasdfasdfNội dung tệp tin asdfadfasdfa asdf asdfasdfasdf asdfasdfasdfasdfNội dung tệp tin asdfadfasdfa asdf asdfasdfasdf asdfasdfasdfasdfNội dung tệp tin asdfadfasdfa asdf asdfasdfasdf asdfasdfasdfasdfNội dung tệp tin asdfadfasdfa asdf asdfasdfasdf asdfasdfasdfasdfNội dung tệp tin asdfadfasdfa asdf asdfasdfasdf asdfasdfasdfasdfNội dung tệp tin asdfadfasdfa asdf asdfasdfasdf asdfasdfasdfasdfNội dung tệp tin asdfadfasdfa asdf asdfasdfasdf asdfasdfasdfasdfNội dung tệp tin asdfadfasdfa asdf asdfasdfasdf asdfasdfasdfasdfNội dung tệp tin asdfadfasdfa asdf asdfasdfasdf asdfasdfasdfasdfNội dung tệp tin asdfadfasdfa asdf asdfasdfasdf asdfasdfasdfasdfNội dung tệp tin asdfadfasdfa asdf asdfasdfasdf asdfasdfasdfasdfNội dung tệp tin asdfadfasdfa asdf asdfasdfasdf asdfasdfasdfasdfNội dung tệp tin asdfadfasdfa asdf asdfasdfasdf asdfasdfasdfasdfNội dung tệp tin asdfadfasdfa asdf asdfasdfasdf asdfasdfasdfasdf',
+            content: 'Chọn "MỞ TỆP TIN" để thực hiện đọc tập tin.',
         };
     }
 
@@ -47,16 +48,23 @@ class Home extends Component
             console.log('Response = ', response);
 
             if (response.didCancel) {
-                console.log('User cancelled file picker');
+                this.setState({
+                    content: 'Chọn "MỞ TỆP TIN" để thực hiện đọc tập tin.'
+                });
             }
             else if (response.error) {
-                console.log('FilePickerManager Error: ', response.error);
+                this.setState({
+                    content: "Có lỗi trong quá trình đọc tập tin."
+                });
             }
             else {
-                console.log(response);
-                this.setState({
-                    content: "Thành công"
-                });
+
+                RNFS.readFile(response.path) // On Android, use "RNFS.DocumentDirectoryPath" (MainBundlePath is not defined)
+                    .then((result) => {
+                        this.setState({
+                            content: result
+                        });
+                    })
             }
         });
     }
@@ -93,7 +101,7 @@ class Home extends Component
 
                 <View tabLabel="ios-folder" style={styles.tabView}>
                     <Header title="ĐỌC TẬP TIN"/>
-                    <View style={[{flex: 1}, styles.marginHeader]}>
+                    <View style={[{flex: 1, padding: 10 }, styles.marginHeader]}>
                            <ScrollView>
                                <Text>{this.state.content}</Text>
                            </ScrollView>
@@ -109,12 +117,12 @@ class Home extends Component
                         }}>
                         <TouchableHighlight onPress={this._onPressOpen.bind(this)} style={styles.button}>
                            <View>
-                               <Text>OPEN</Text>
+                               <Text>MỞ TẬP TIN</Text>
                            </View>
                         </TouchableHighlight>
                         <TouchableHighlight onPress={this._onPressSpeak} style={styles.button}>
                             <View>
-                                <Text>SPEAK</Text>
+                                <Text>ĐỌC</Text>
                             </View>
                         </TouchableHighlight>
 
