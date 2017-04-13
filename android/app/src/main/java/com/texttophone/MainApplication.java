@@ -11,7 +11,7 @@ import com.facebook.soloader.SoLoader;
 import com.brentvatne.react.ReactVideoPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.corbt.keepawake.KCKeepAwakePackage;
-
+import com.filepicker.FilePickerPackage;
 import java.util.Arrays;
 import java.util.List;
 
@@ -30,6 +30,7 @@ public class MainApplication extends Application implements ReactApplication {
             new SplashScreenReactPackage(),
           new ReactVideoPackage(),
           new VectorIconsPackage(),
+          new FilePickerPackage(),
           new KCKeepAwakePackage()
       );
     }

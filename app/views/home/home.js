@@ -21,7 +21,7 @@ import ScrollableTabView, {ScrollableTabBar } from 'react-native-scrollable-tab-
 import CustomTabBar from './CustomTabBar';
 import Header from '../../component/header/index';
 import Icon from 'react-native-vector-icons/Ionicons';
-
+const FilePickerManager = require('NativeModules').FilePickerManager;
 class Home extends Component
 {
     constructor(props) {
@@ -43,7 +43,22 @@ class Home extends Component
     }
 
     _onPressOpen(){
+        FilePickerManager.showFilePicker(null, (response) => {
+            console.log('Response = ', response);
 
+            if (response.didCancel) {
+                console.log('User cancelled file picker');
+            }
+            else if (response.error) {
+                console.log('FilePickerManager Error: ', response.error);
+            }
+            else {
+                console.log(response);
+                this.setState({
+                    content: "Thành công"
+                });
+            }
+        });
     }
 
     _onPressSpeak(){
@@ -92,7 +107,7 @@ class Home extends Component
                         alignItems: 'center',
                         flexDirection: 'row',
                         }}>
-                        <TouchableHighlight onPress={this._onPressOpen} style={styles.button}>
+                        <TouchableHighlight onPress={this._onPressOpen.bind(this)} style={styles.button}>
                            <View>
                                <Text>OPEN</Text>
                            </View>

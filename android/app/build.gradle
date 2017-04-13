@@ -133,6 +133,7 @@ dependencies {
     compile project(':react-native-vector-icons')
     compile project(':react-native-video')
     compile project(':react-native-keep-awake')
+    compile project(':react-native-file-picker')
 
 }
 
