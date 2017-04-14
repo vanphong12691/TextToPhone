@@ -19,7 +19,7 @@ var Global = require('../../common/global');
 import Icon from 'react-native-vector-icons/Ionicons';
 import SplashScreen from 'react-native-splash-screen'
 import ScrollableTabView, {ScrollableTabBar } from 'react-native-scrollable-tab-view';
-import CustomTabBar from './CustomTabBar';
+import CustomTabBar from './custombar';
 import Header from '../../component/header/index';
 import Audio from '../../component/audio/audio';
 var RNFS = require('react-native-fs');
@@ -121,16 +121,17 @@ class Home extends Component
 
         return (
             <ScrollableTabView
-                initialPage={1}
                 removeClippedSubviews={false}
                 style={{ backgroundColor: 'white' }}
                 tabBarPosition={'bottom'}
                 locked={true}
                 onChangeTab={(item) => this._changeTab(item)}
                 renderTabBar={() => <CustomTabBar />}>
-                <View tabLabel="ios-home" style={styles.tabView}>
-                   <Header title="ĐỌC ĐOẠN VĂN"/>
-                   <View style={[styles.marginHeader, {flex: 1}]}>
+                <View tabLabel="ios-microphone" style={styles.tabView}>
+                    <View style={{height: Global.Constants.HEIGHT_HEADER}}>
+                        <Header title="ĐỌC ĐOẠN VĂN"/>
+                    </View>
+                   <View style={{flex: 1}}>
                        <TextInput
                            style={styles.textInput}
                            onChangeText={(text) => this.setState({text})}
@@ -149,7 +150,7 @@ class Home extends Component
 
                 <View tabLabel="ios-document" style={styles.tabView}>
                     <View style={{height: Global.Constants.HEIGHT_HEADER}}>
-                        <Header title="ĐỌC TẬP TIN"/>
+                        <Header icon="ios-document" title="ĐỌC TẬP TIN"/>
                     </View>
                     <View style={{flex:1}}>
                         <ScrollView><Text style={styles.textInput}>
@@ -186,8 +187,10 @@ class Home extends Component
                     </View>}
                  </View>
 
-                <View tabLabel="ios-settings" style={styles.tabView}>
-
+                <View tabLabel="ios-more" style={styles.tabView}>
+                    <View style={{height: Global.Constants.HEIGHT_HEADER}}>
+                        <Header icon="ios-menu" title="CÀI ĐẶT"/>
+                    </View>
                 </View>
             </ScrollableTabView>
         )
@@ -195,9 +198,6 @@ class Home extends Component
 }
 
 var styles = StyleSheet.create({
-    marginHeader:{
-        marginTop: Global.Constants.HEIGHT_HEADER,
-    },
     tabView:{
         flexDirection:'column',
         flex: 1,

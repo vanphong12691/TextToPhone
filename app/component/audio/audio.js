@@ -120,7 +120,7 @@ class Audio extends Component {
                             <Icon
                                 name={"ios-folder-open"}
                                 size={35}
-                                color={Global.Constants.HEAD_COLOR}
+                                color={Global.Constants.BUTTON_OPEN_COLOR}
                             />
                         </View>
                     </TouchableHighlight>}
@@ -129,7 +129,7 @@ class Audio extends Component {
                             <Icon
                                 name={"ios-mic"}
                                 size={35}
-                                color={Global.Constants.HEAD_COLOR}
+                                color={Global.Constants.BUTTON_MIC_COLOR}
                             />
                         </View>
                     </TouchableHighlight>

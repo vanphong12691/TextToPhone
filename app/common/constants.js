@@ -14,6 +14,9 @@ exports.BACKGROUND_COLOR = '#E1F5FE';
 exports.BUTTON_COLOR = "#B3E5FC";
 exports.FONT_COLOR = "#01579B";
 
+exports.BUTTON_OPEN_COLOR = "#FFEE58";
+exports.BUTTON_MIC_COLOR = "#D50000";
+
 //define key store
 exports.SETTING_STORE_KEY = 'SETTING_STORE_KEY';
 exports.SEEN_STORE_KEY = 'SEEN_STORE_KEY';
