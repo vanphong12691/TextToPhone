@@ -8,10 +8,11 @@ exports.HEIGHT_HEADER = 50;
 exports.HEIGHT_FOOTER = 120;
 exports.IMAGE_MESSAGE_HEIGHT = 150;
 exports.IMAGE_MESSAGE_WIDTH = 150;
-exports.HEAD_COLOR = '#F50057';
-exports.HEAD_BLU_COLOR = '#FF80AB';
-exports.BACKGROUND_COLOR = '#F8BBD0';
-exports.BUTTON_COLOR = "#FF4081";
+exports.HEAD_COLOR = '#00B0FF';
+exports.HEAD_BLU_COLOR = '#80D8FF';
+exports.BACKGROUND_COLOR = '#E1F5FE';
+exports.BUTTON_COLOR = "#B3E5FC";
+exports.FONT_COLOR = "#01579B";
 
 //define key store
 exports.SETTING_STORE_KEY = 'SETTING_STORE_KEY';

@@ -9,7 +9,7 @@ module.exports = StyleSheet.create({
     },
 
     centering:{
-        backgroundColor: '#F8BBD0',
+        backgroundColor: Global.Constants.BACKGROUND_COLOR,
         alignItems: 'center',
         justifyContent: 'center',
         top: 0,
@@ -30,12 +30,14 @@ module.exports = StyleSheet.create({
         flex: 1,
         fontSize: 12,
         marginTop: -6,
+        color: Global.Constants.HEAD_COLOR
     },
     timeRight: {
         marginTop: -6,
         textAlign: 'right',
         flex: 1,
         fontSize: 12,
+        color: Global.Constants.HEAD_COLOR
     },
     slider: {
         marginTop: 12,
@@ -43,13 +45,13 @@ module.exports = StyleSheet.create({
     },
     sliderTrack: {
         height: 2,
-        backgroundColor: '#333',
+        backgroundColor: Global.Constants.HEAD_BLU_COLOR,
     },
     sliderThumb: {
-        width: 10,
+        width: 5,
         height: 10,
-        backgroundColor: '#f62976',
-        borderRadius: 10 / 2,
+        backgroundColor: Global.Constants.HEAD_COLOR,
+        borderRadius: 0,
         shadowColor: 'red',
         shadowOffset: {width: 0, height: 0},
         shadowRadius: 2,

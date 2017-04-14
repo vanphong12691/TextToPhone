@@ -11,12 +11,12 @@ import {
     TouchableHighlight,
     RefreshControl,
     ViewPagerAndroid,
-    ActivityIndicator
+    ActivityIndicator,
+    TouchableOpacity
 }from 'react-native';
 
 var Global = require('../../common/global');
-import Slider from 'react-native-slider';
-import Video from 'react-native-video';
+import Icon from 'react-native-vector-icons/Ionicons';
 import SplashScreen from 'react-native-splash-screen'
 import ScrollableTabView, {ScrollableTabBar } from 'react-native-scrollable-tab-view';
 import CustomTabBar from './CustomTabBar';
@@ -31,10 +31,12 @@ class Home extends Component
         this.state = {
             text: 'Đây là chương trình đọc Tiếng Việt.',
             content: 'Chọn "MỞ TỆP TIN" để thực hiện đọc tập tin.',
+            pages: [],
             audioPath: '',
             playing: false,
             loading: false,
             readText: true,
+            currentPage: 0,
         };
     }
 
@@ -65,25 +67,68 @@ class Home extends Component
 
                 RNFS.readFile(response.path) // On Android, use "RNFS.DocumentDirectoryPath" (MainBundlePath is not defined)
                     .then((result) => {
+
+                        let pages = Global.Utils.convertContentToPages(result);
+
                         this.setState({
-                            content: result
+                            content: pages[0],
+                            pages: pages
                         });
                     })
             }
         });
     }
 
+    onClickNext(){
+
+        let current = this.state.currentPage;
+        let pages = this.state.pages;
+        if(current < pages.length-1){
+            this.setState({
+                content: pages[current+1],
+                currentPage: current+1
+            })
+        }
+
+
+    }
+
+    onClickBack(){
+        let current = this.state.currentPage;
+        let pages = this.state.pages;
+        if(current > 0){
+            this.setState({
+                content: pages[current-1],
+                currentPage: current-1
+            })
+        }
+
+    }
     render(){
+        let next_back = false;
+        if(this.state.pages.length > 1){
+            next_back = true;
+        }
+        let next = false;
+        if(this.state.currentPage < this.state.pages.length-1){
+            next = true;
+        }
+
+        let back = false;
+        if(this.state.currentPage >0){
+            back = true;
+        }
 
         return (
             <ScrollableTabView
+                initialPage={1}
                 removeClippedSubviews={false}
                 style={{ backgroundColor: 'white' }}
                 tabBarPosition={'bottom'}
-                locked = {true}
+                locked={true}
                 onChangeTab={(item) => this._changeTab(item)}
                 renderTabBar={() => <CustomTabBar />}>
-                <View tabLabel="ios-mic" style={styles.tabView}>
+                <View tabLabel="ios-home" style={styles.tabView}>
                    <Header title="ĐỌC ĐOẠN VĂN"/>
                    <View style={[styles.marginHeader, {flex: 1}]}>
                        <TextInput
@@ -92,7 +137,7 @@ class Home extends Component
                            value={this.state.text}
                            editable = {true}
                            multiline = {true}
-                           numberOfLines = {4}
+                           numberOfLines = {100}
                            underlineColorAndroid={'transparent'}
                        />
                    </View>
@@ -102,16 +147,43 @@ class Home extends Component
                 </View>
 
 
-                <View tabLabel="ios-folder" style={styles.tabView}>
-                    <Header title="ĐỌC TẬP TIN"/>
-                    <View style={[{flex: 1, padding: 10 }, styles.marginHeader]}>
-                           <ScrollView>
-                               <Text>{this.state.content}</Text>
-                           </ScrollView>
+                <View tabLabel="ios-document" style={styles.tabView}>
+                    <View style={{height: Global.Constants.HEIGHT_HEADER}}>
+                        <Header title="ĐỌC TẬP TIN"/>
+                    </View>
+                    <View style={{flex:1}}>
+                        <ScrollView><Text style={styles.textInput}>
+                            {this.state.content}
+                        </Text>
+                        </ScrollView>
                     </View>
                     <View style={{height: 110}}>
                         <Audio isReadFile = {true} content={this.state.content} onClickOpen={this.onClickOpen.bind(this)}/>
                     </View>
+                    {next_back&&<View style={{
+                        flexDirection:'row',
+                        justifyContent: 'space-between',
+                        position: 'absolute',
+                        left: 0,
+                        right:0,
+                        top: Global.Constants.HEIGHT_SCREEN/3,
+                    }}>
+                        {back&&<TouchableOpacity onPress={this.onClickBack.bind(this)}>
+                            <Icon
+                                name={"ios-arrow-back"}
+                                size={40}
+                                color={Global.Constants.HEAD_COLOR}
+                            />
+                            </TouchableOpacity>}
+                        {!back&&<View></View>}
+                        {next&&<TouchableOpacity onPress={this.onClickNext.bind(this)}>
+                            <Icon
+                                name={"ios-arrow-forward"}
+                                size={40}
+                                color={Global.Constants.HEAD_COLOR}
+                            />
+                            </TouchableOpacity>}
+                    </View>}
                  </View>
 
                 <View tabLabel="ios-settings" style={styles.tabView}>
@@ -132,9 +204,10 @@ var styles = StyleSheet.create({
         backgroundColor: Global.Constants.BACKGROUND_COLOR,
     },
     textInput:{
-        height: Global.Constants.HEIGHT_SCREEN-Global.Constants.HEIGHT_HEADER*2-25,
         textAlignVertical: 'top',
-        padding: 10
+        color: Global.Constants.FONT_COLOR,
+        padding: 8,
+        fontSize: 14
     }
 });
 module.exports = Home;

@@ -10,6 +10,7 @@ import {
 }from 'react-native';
 
 var styles = require('./audio_style');
+import Icon from 'react-native-vector-icons/Ionicons';
 import Slider from 'react-native-slider';
 import Video from 'react-native-video';
 var Global = require('../../common/global');
@@ -55,7 +56,7 @@ class Audio extends Component {
         } else {
             songPercentage = 0;
         }
-        let playImage = this.state.playing ? require('../../images/pause.png') : require('../../images/play.png');
+        let playImage = this.state.playing ? "ios-pause" : "ios-play";
 
         return (
             <View>
@@ -64,7 +65,11 @@ class Audio extends Component {
                         <View style={{flex: 0.15, alignItems: 'center', justifyContent: 'center'}}>
                             <TouchableHighlight onPress={this.togglePlay.bind(this)} underlayColor="transparent"
                                                 style={{width: 30, height: 30}}>
-                                <Image style={{width: 30, height: 30}} source={playImage}></Image>
+                                <Icon
+                                    name={playImage}
+                                    size={30}
+                                    color={Global.Constants.HEAD_COLOR}
+                                />
                             </TouchableHighlight>
                         </View>
                         <View style={{flex: 0.85,}}>
@@ -86,7 +91,7 @@ class Audio extends Component {
                                     onSlidingStart={ this.onSlidingStart.bind(this) }
                                     onSlidingComplete={ this.onSlidingComplete.bind(this) }
                                     onValueChange={ this.onSlidingChange.bind(this) }
-                                    minimumTrackTintColor='#851c44'
+                                    minimumTrackTintColor= {Global.Constants.HEAD_COLOR}
                                     style={ styles.slider }
                                     trackStyle={ styles.sliderTrack }
                                     thumbStyle={ styles.sliderThumb }
@@ -110,14 +115,22 @@ class Audio extends Component {
                     flexDirection: 'row',
                 }}>
                     {this.props.isReadFile &&
-                    <TouchableHighlight onPress={this.props.onClickOpen} underlayColor={"#EC407A"} style={styles.button}>
+                    <TouchableHighlight onPress={this.props.onClickOpen} underlayColor={"#81D4FA"} style={styles.button}>
                         <View>
-                            <Text style={{color:'white'}}>MỞ TẬP TIN</Text>
+                            <Icon
+                                name={"ios-folder-open"}
+                                size={35}
+                                color={Global.Constants.HEAD_COLOR}
+                            />
                         </View>
                     </TouchableHighlight>}
-                    <TouchableHighlight onPress={this._onPressSpeak.bind(this)} underlayColor={"#EC407A"} style={styles.button}>
+                    <TouchableHighlight onPress={this._onPressSpeak.bind(this)} underlayColor={"#81D4FA"} style={styles.button}>
                         <View>
-                            <Text style={{color:'white'}}>ĐỌC</Text>
+                            <Icon
+                                name={"ios-mic"}
+                                size={35}
+                                color={Global.Constants.HEAD_COLOR}
+                            />
                         </View>
                     </TouchableHighlight>
                 </View>
