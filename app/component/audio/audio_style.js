@@ -21,6 +21,7 @@ module.exports = StyleSheet.create({
     },
     sliderContainer: {
         width: window.width - 40,
+        paddingRight: 15
     },
     timeInfo: {
         flexDirection: 'row',

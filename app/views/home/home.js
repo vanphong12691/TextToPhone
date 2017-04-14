@@ -47,50 +47,6 @@ class Home extends Component
         }
     }
 
-    _onPressOpen(){
-        FilePickerManager.showFilePicker(null, (response) => {
-            console.log('Response = ', response);
-
-            if (response.didCancel) {
-                this.setState({
-                    content: 'Chọn "MỞ TỆP TIN" để thực hiện đọc tập tin.'
-                });
-            }
-            else if (response.error) {
-                this.setState({
-                    content: "Có lỗi trong quá trình đọc tập tin."
-                });
-            }
-            else {
-
-                RNFS.readFile(response.path) // On Android, use "RNFS.DocumentDirectoryPath" (MainBundlePath is not defined)
-                    .then((result) => {
-                        this.setState({
-                            content: result
-                        });
-                    })
-            }
-        });
-    }
-
-    _onPressSpeak(){
-        let content = encodeURIComponent(this.state.content);
-        let audioPath = "http://192.168.1.110:59125/process?INPUT_TEXT="+content+"&INPUT_TYPE=TEXT&OUTPUT_TYPE=AUDIO&LOCALE=vi&AUDIO=WAVE_FILE"
-        this.setState({
-            audioPath: audioPath,
-            currentTime: 0,
-        })
-    }
-    _onPressSpeakText(){
-        let content = encodeURIComponent(this.state.text);
-        let audioPath = "http://192.168.1.110:59125/process?INPUT_TEXT="+content+"&INPUT_TYPE=TEXT&OUTPUT_TYPE=AUDIO&LOCALE=vi&AUDIO=WAVE_FILE"
-        this.setState({
-            audioPath: audioPath,
-            currentTime: 0,
-        })
-
-    }
-
     onClickOpen(){
         FilePickerManager.showFilePicker(null, (response) => {
             console.log('Response = ', response);

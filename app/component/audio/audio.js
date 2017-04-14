@@ -41,7 +41,7 @@ class Audio extends Component {
         let content = encodeURIComponent(this.props.content);
         let audioPath = "http://192.168.1.110:59125/process?INPUT_TEXT=" + content + "&INPUT_TYPE=TEXT&OUTPUT_TYPE=AUDIO&LOCALE=vi&AUDIO=WAVE_FILE";
         this.setState({
-            audioPath: audioPath+"1",
+            audioPath: audioPath,
             currentTime: 0,
             loading: loading,
             content: this.props.content,
@@ -138,7 +138,8 @@ class Audio extends Component {
     onLoad(params) {
         this.setState({
             loading:false,
-            songDuration: params.duration
+            songDuration: params.duration,
+            playing: true,
         });
     }
 
